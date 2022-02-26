@@ -1,0 +1,69 @@
+ID Genus Species Cultivar Common
+
+2 screens total
+
+[First Screen]
+Class MY_PC_COLLECTION
+
+Object_PC > Collection of Component objects (No less than 10) to build a computer
+
+Object_PC attributes
+call	ID, Order, buildNumber, pcName, Description, TotalPrice, stateofRepair, picture, $repairArrayList$, *computerComponentsArrayList*, ^kartArrayList^
+type	int, int, string, string, string, int, boolean, arrayList, arrayList            (buildNumber is string "BUILD" + Order)
+ex	123, 0, Build 1, BlueAngel, "my gaming battlestation" , $1100, True, arrayList, arrayList
+
+[Second Screen] 
+
+*computerComponentsArrayList* attributes
+
+PowerSupply|
+
+call	hidden, componentOrder, componentName, description, addRepair, **componentShoppingList** 
+type	Boolean, int, SolidString, SolidDescription, Boolean, arrayList,
+ex	False, 0, Power Supply, "power supply guides power to all components to PC, True, arrayList
+GraphicsCard
+ProcessorCPU
+Motherboard
+Wires...
+
+if addRepair is True populate repairArray List in specific PC object
+
+$repairArrayList$ attributes
+
+call	componentOrder, displayComponentOrder, componentName   (displayComponent order is string "component" + componentOrder)
+type	int, string, string
+ex	0, component1, PowerSupply
+
+
+componentOrder is the order the checkboxes are unhidden,
+	
+if user checks a checkbox on the menu check
+	if order on previous component is 1 then +1 to compoentOrder 
+
+if user unchecks checkbox on menu check
+	subtract 1 from compnentOrder on all component objects. *dropdownlist behavior the user sees on screen*
+
+
+**componentShoppingList** Attributes
+
+call	ID, order, whatName, brand,  model, displayURL, pictureUrl, price, hide, addKart 
+type	int, int, string, string, string, URL, URL, int, boolean, boolean 
+ex	07, 7, Powersupply, Corsair, RM750, Picture, $300, False, True 
+ex	08, 8, Storage, Seagate, STEA2000400, Picture, $100, False, False
+
+price goes to 0 if edited to blank space, negative or incorrectly written.
+
+order goes to 1 if edited to black space, negative, or incorrectly written.
+
+when hidden, box will be available to click to unhide.
+
+if addKart is checked Populate kartArrayList
+^kartArrayList^ attributes
+
+call	ID, order, whatName, brand, model, price
+type	int, int, string, string, string, int
+ex 	890, 1, PowerSupply 1, Cosair, RM750, $300
+
+when checkout clicked
+add prices to new varible totalKartprice in kartArrayList.
+add totalKartPrice to TotalPrice in PC object.
